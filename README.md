@@ -28,6 +28,11 @@ Agent State Protocol defines language-neutral JSON schemas for exchanging safe l
 
 Sessions and leases are deferred until their lifecycle semantics and owner are established.
 
+## Implementations / consumers
+
+- [Codex Control Center](https://github.com/MalenkiySolovey/codex-control-center) — C#/.NET protocol consumer.
+- [agent-state-protocol-ts](https://github.com/MalenkiySolovey/agent-state-protocol-ts) — TypeScript/Node.js reference consumer and runtime validator.
+
 ## Security and privacy
 
 General state carries secret references and safe credential metadata, never OAuth tokens, API keys, TOTP seeds, raw authentication files, decrypted vault content, or credential storage paths. Consumers must sanitize error messages before serialization. See [SECURITY.md](SECURITY.md) and [spec/security.md](spec/security.md).
