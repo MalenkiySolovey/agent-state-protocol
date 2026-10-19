@@ -31,7 +31,7 @@ Sessions and leases are deferred until their lifecycle semantics and owner are e
 ## Implementations / consumers
 
 - [Codex Control Center](https://github.com/MalenkiySolovey/codex-control-center) — C#/.NET protocol consumer.
-- [agent-state-protocol-ts](https://github.com/MalenkiySolovey/agent-state-protocol-ts) — TypeScript/Node.js reference consumer and runtime validator.
+- Protocol v1 is additionally validated by an independent TypeScript/Node.js conformance implementation.
 
 ## Security and privacy
 
