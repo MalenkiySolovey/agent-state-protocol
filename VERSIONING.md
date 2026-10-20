@@ -20,6 +20,8 @@ The following require a new schema major family (for example, v2):
 
 Existing v1 semantics must not change silently.
 
+The account source and nickname contracts are independent v1 schemas. They do not add fields to or redefine `AccountDescriptor.displayName` or `AccountMetadataUpdate.nickname`; source projection, exact nickname state, and nickname mutation remain separate records.
+
 ## Unknown enum values
 
 Schemas enumerate values known to this version. Consumers must not crash when they encounter an unknown semantic value; they should preserve it where practical or treat it as unsupported/unknown. An enum addition is compatible only for consumers that honor this rule. JSON Schema enum validation by itself does not make generated clients forward-compatible.

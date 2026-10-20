@@ -6,7 +6,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
 
-from validate import example_property_names, property_name_is_forbidden, schema_property_names  # noqa: E402
+from validate import example_property_names, property_name_is_forbidden, schema_property_names, semantic_error_keywords  # noqa: E402
 
 
 class ValidatorPrivacyTests(unittest.TestCase):
@@ -27,6 +27,31 @@ class ValidatorPrivacyTests(unittest.TestCase):
         self.assertIn("api_key", set(example_property_names(example)))
         self.assertTrue(any(property_name_is_forbidden(name) for name in schema_property_names(schema)))
         self.assertTrue(any(property_name_is_forbidden(name) for name in example_property_names(example)))
+
+    def test_new_account_collections_reject_duplicate_account_ids_semantically(self) -> None:
+        source_collection = {
+            "schemaVersion": 1,
+            "accounts": [
+                {"accountId": "synthetic-duplicate"},
+                {"accountId": "synthetic-duplicate"},
+            ],
+        }
+        nickname_collection = {
+            "schemaVersion": 1,
+            "accounts": [
+                {"accountId": "synthetic-duplicate"},
+                {"accountId": "synthetic-duplicate"},
+            ],
+        }
+        self.assertEqual(
+            semantic_error_keywords("urn:agent-state-protocol:v1:accounts:account-source-collection", source_collection),
+            {"uniqueAccountId"},
+        )
+        self.assertEqual(
+            semantic_error_keywords("urn:agent-state-protocol:v1:accounts:account-nickname-collection", nickname_collection),
+            {"uniqueAccountId"},
+        )
+        self.assertEqual(semantic_error_keywords("urn:agent-state-protocol:v1:accounts:account-collection", source_collection), set())
 
 
 if __name__ == "__main__":
